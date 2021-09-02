@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$token = "EAAH6PEKW1FwBANNZAH3ydfcZAMvMYaelaGchkw4ZAaXxvKXCo7ZBw2TOMeECmAMVf31xIcNB7BLotndzvzrBeeZCxVJ1apDjDu6ZCETMPqCeR9HNLbZCBwu4SBYtdVO9Y981KobV8oZADDpRu4zRtdh2hX8Cban092xco01viS55HiJXSAZBQlaw5sec2n41LaXYZD";
+$token = "EAAHhOHJDpuQBAA1QDp81xnY2rZBZBrsN8BDMrZAtkG0ZCZAd1H2exR8tZA6Ec7Vxzo81vURNAynZAxgAf5ZBuiZAj2lcPdsksJJMJZA5DpdocMe2ZAOsW6qU2p3YapLfgSt645LVR0vjJJ8Ghut7y0ZAyDe8ZAbyWKq88uZBdIPk1PJc5qRodJPZAm67UMI4Eh4hoplh9gZD";
 
 $verify_token="myBusiness23";
 
