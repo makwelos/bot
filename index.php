@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $access_token="EAAH6PEKW1FwBANNZAH3ydfcZAMvMYaelaGchkw4ZAaXxvKXCo7ZBw2TOMeECmAMVf31xIcNB7BLotndzvzrBeeZCxVJ1apDjDu6ZCETMPqCeR9HNLbZCBwu4SBYtdVO9Y981KobV8oZADDpRu4zRtdh2hX8Cban092xco01viS55HiJXSAZBQlaw5sec2n41LaXYZD";
 
 $verify_token="myBusiness#23";
