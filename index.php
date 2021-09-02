@@ -3,9 +3,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$access_token="EAAH6PEKW1FwBANNZAH3ydfcZAMvMYaelaGchkw4ZAaXxvKXCo7ZBw2TOMeECmAMVf31xIcNB7BLotndzvzrBeeZCxVJ1apDjDu6ZCETMPqCeR9HNLbZCBwu4SBYtdVO9Y981KobV8oZADDpRu4zRtdh2hX8Cban092xco01viS55HiJXSAZBQlaw5sec2n41LaXYZD";
 
-$verify_token="myBusiness#23";
+
+$hubVerifyToken = 'myBusiness23';
+$accessToken = "EAAH6PEKW1FwBANNZAH3ydfcZAMvMYaelaGchkw4ZAaXxvKXCo7ZBw2TOMeECmAMVf31xIcNB7BLotndzvzrBeeZCxVJ1apDjDu6ZCETMPqCeR9HNLbZCBwu4SBYtdVO9Y981KobV8oZADDpRu4zRtdh2hX8Cban092xco01viS55HiJXSAZBQlaw5sec2n41LaXYZD";
+
+
 
 $hub_verify_token=null;
 
@@ -19,11 +22,10 @@ if(isset($_REQUEST['hub_mode'])&&$_REQUEST['hub_mode']=='subscribe')
 		die;
 }
 
-$response=json_decode(file_get_contents('php://input'),true);
+$input=json_decode(file_get_contents('php://input'),true);
 
-file_put_contents("text.txt", $response);
-$sender=$response['entry'][0]['messaging'][0]['sender']['id'];
-$message=isset($response['entry'][0]['messaging'][0]['message']['text'])?$response['entry'][0]['messaging'][0]['message']['text']:'';
+$sender=$input['entry'][0]['messaging'][0]['sender']['id'];
+$message=isset($input['entry'][0]['messaging'][0]['message']['text'])?$input['entry'][0]['messaging'][0]['message']['text']:'';
 if($message)
 {
 	$words = explode(" ", $message);
@@ -59,3 +61,6 @@ if($message)
 	curl_close($ch);
 	
 }	
+
+
+?>
