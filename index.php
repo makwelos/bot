@@ -115,7 +115,7 @@ if (isset($messageText)) {
     ];
 }
 
-$accessToken = "EAAH6PEKW1FwBAEm9YtzTsFuS2rRLzWgZAvu31C3ZBeajxxyoMm73knrCSJEAkaEhNPZBCwzyz81TDZCm0wQWUgEaMCAC9wzjqpijF9bCDsOFGZAYlnBzVzM5ZBzqsbsDZB6EA41ZCNc7X1b7DmnLL7BqVcJrduZC8zD6YRsNKSUWKNUm2O8Vy3WZATsJgHZAiZAusNgZD";
+$accessToken = "EAAFXn6Y0hk8BAEJfZB58JoZCS6OtnI6TPfLWuN8l5JXZB9wIJne5ZAfxIqQsy3TqLKLMGHdrs2h0LNJrPp51VtJlzbZBxH7K5h27n4dCHWN5muwtXZAxSUvAauEk8dRKv20y1xeZAgafDHnLIeW7bbVH2HlZCxM4ZAC43xbbhxf62SEvZA8LY26O82mxOPqp6X2PExLZBO8qpKcXgHyNhNSUSdugvdjV9zZCow8ZD";
 $requestURI = 'https://graph.facebook.com/v8.0/me/messages?access_token='; //Request URI
 
 
