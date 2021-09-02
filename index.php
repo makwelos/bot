@@ -20,9 +20,9 @@ if(isset($_REQUEST['hub_mode'])&&$_REQUEST['hub_mode']=='subscribe')
 }
 
 //$input=json_decode(file_get_contents('php://input'),true);
-$response = file_get_content("php://input");
+$response = file_get_contents("php://input");
 $response = json_decode($response, true);
-
+file_put_contents("text.txt", $response);
 $sender=$response['entry'][0]['messaging'][0]['sender']['id'];
 $message=isset($response['entry'][0]['messaging'][0]['message']['text'])?$response['entry'][0]['messaging'][0]['message']['text']:'';
 if($message)
