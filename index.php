@@ -19,10 +19,9 @@ if(isset($_REQUEST['hub_mode'])&&$_REQUEST['hub_mode']=='subscribe')
 		die;
 }
 
-//$input=json_decode(file_get_contents('php://input'),true);
-$response = json_decode(file_get_contents("php://input"), true);
+$response=json_decode(file_get_contents('php://input'),true);
 
-//file_put_contents("text.txt", $response);
+file_put_contents("text.txt", $response);
 $sender=$response['entry'][0]['messaging'][0]['sender']['id'];
 $message=isset($response['entry'][0]['messaging'][0]['message']['text'])?$response['entry'][0]['messaging'][0]['message']['text']:'';
 if($message)
