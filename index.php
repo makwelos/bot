@@ -1,12 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$token = "EAAHhOHJDpuQBAA1QDp81xnY2rZBZBrsN8BDMrZAtkG0ZCZAd1H2exR8tZA6Ec7Vxzo81vURNAynZAxgAf5ZBuiZAj2lcPdsksJJMJZA5DpdocMe2ZAOsW6qU2p3YapLfgSt645LVR0vjJJ8Ghut7y0ZAyDe8ZAbyWKq88uZBdIPk1PJc5qRodJPZAm67UMI4Eh4hoplh9gZD";
-
+$access_token="EAAHhOHJDpuQBAA1QDp81xnY2rZBZBrsN8BDMrZAtkG0ZCZAd1H2exR8tZA6Ec7Vxzo81vURNAynZAxgAf5ZBuiZAj2lcPdsksJJMJZA5DpdocMe2ZAOsW6qU2p3YapLfgSt645LVR0vjJJ8Ghut7y0ZAyDe8ZAbyWKq88uZBdIPk1PJc5qRodJPZAm67UMI4Eh4hoplh9gZD";
 $verify_token="myBusiness23";
-
 $hub_verify_token=null;
 
 if(isset($_REQUEST['hub_mode'])&&$_REQUEST['hub_mode']=='subscribe')
@@ -19,132 +13,45 @@ if(isset($_REQUEST['hub_mode'])&&$_REQUEST['hub_mode']=='subscribe')
 		die;
 }
 
-$fb = json_decode(file_get_contents("php://input")); //data of an incoming request
-if (isset($fb->entry[0]->messaging[0]->sender->id)) {
-   $id = $fb->entry[0]->messaging[0]->sender->id;	//a field with user's ID
-} else {
-   exit();
-}
-if (isset($fb->entry[0]->messaging[0]->message->text)) {
-$message = $fb->entry[0]->messaging[0]->message->text;  //a field with the text of the message
-}
-if (isset($fb->entry[0]->messaging[0]->postback->payload)) {
-$payload = $fb->entry[0]->messaging[0]->postback->payload; //a field with the text on the button
-}
-if (isset($fb->entry[0]->messaging[0]->message->quick_reply->payload)) {
-$payload_quick = $fb->entry[0]->messaging[0]->message->quick_reply->payload; 
-} 								//a field with the text of the quick reply
-//The function of sending a message
-function send($data,$token)	//data and token are sent to the function
+$input=json_decode(file_get_contents('php://input'),true);
+
+$sender=$input['entry'][0]['messaging'][0]['sender']['id'];
+$message=isset($input['entry'][0]['messaging'][0]['message']['text'])?$input['entry'][0]['messaging'][0]['message']['text']:'';
+if($message)
 {
-   $url = "https://graph.facebook.com/v2.7/me/messages?access_token=" . $token; 
+	$words = explode(" ", $message);
+	if($words[0]=="Hi"||$words[0]=="Hello"||$words[0]=="hi"||$words[0]=="hello")
+	{
+		$message_to_reply="hi there :)"."How can I help You??";
+	}
+	else if($words[0]=="What"||$words[0]=="Why"||$words[0]=="Who"||$words[0]=="who"||$words[0]=="what"||$words[0]=="why")
+	{
+		$message_to_reply="I am just a normal bot to answer the questions on behalf of my creator mr.Shoaib :)";
+	}
+	else
+	{
+		$message_to_reply="I am Sorry, I can't help You This Time.";
+	}
+	$url="https://graph.facebook.com/v2.6/me/messages?access_token=".$access_token;
+	$jsonData='{
+					"recipient":{
+						"id":"'.$sender.'"
+					},
+					"message":{
+						"text":"'.$message_to_reply.'"
+					}
+				 
+				}';
+	$ch=curl_init($url);
+	curl_setopt($ch,CURLOPT_POST,1);
+	curl_setopt($ch,CURLOPT_POSTFIELDS,$jsonData);
+	curl_setopt($ch,CURLOPT_HTTPHEADER,array('Content-Type:application/json'));
+	curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
+	curl_setopt($ch,CURLOPT_HTTP_VERSION,CURLOPT_HTTP_VERSION_NONE);
+	$result=curl_exec($ch);
+	curl_close($ch);
+	
+}	
 
-   $data_string = json_encode($data);		//we convert data to JSON
 
-   $ch = curl_init($url);				//we send POST request using curl
-   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-           'Content-Type: application/json',
-           'Content-Length: ' . strlen($data_string))
-   );
-
-   curl_exec($ch);
-   curl_close($ch);
-}
-
-//choosing an answer for a user
-if ($message == "Hello") { //if there is a message from a user with the text “Hello”
-   $menu_keyboard = [		//an array with buttons
-       [
-           "content_type" => "text",
-           "title" => "I'm happy!",
-           "payload" => "happy"
-       ],
-       [
-           "content_type" => "text",
-           "title" => "I'm sad!",
-           "payload" => "sad"
-       ]
-   ];
-
-   $data = array(				//message data
-       'recipient' => array(
-           'id' => $id				//user's ID
-       ),
-       'message' => array(
-           'text' => "Hello my dear subscriber!",	//message text
-           'quick_replies' => $menu_keyboard	//adding buttons to the messages
-       )
-   );
-
-   send($data, $token);				//sending message
-
-} elseif ($payload_quick == "happy") {  //if a user presses the button which has a payload ‘happy”
-   $menu_keyboard = [
-       [
-           "content_type" => "text",
-           "title" => "To start!",
-           "payload" => "start"
-       ]
-   ];
-
-   $data = array(
-       'recipient' => array(
-           'id' => $id
-       ),
-       'message' => array(
-           'text' => "I'm happy too!",
-           'quick_replies' => $menu_keyboard
-       )
-   );
-   send($data, $token);
-
-} elseif ($payload_quick == "sad") { 	//if a user presses the button which has a payload ‘sad”
-   $menu_keyboard = [
-       [
-           "content_type" => "text",
-           "title" => "To start!",
-           "payload" => "start"
-       ]
-   ];
-
-   $data = array(
-       'recipient' => array(
-           'id' => $id
-       ),
-       'message' => array(
-           'text' => "I'm sad too!",
-           'quick_replies' => $menu_keyboard
-
-       )
-   );
-   send($data, $token);
-
-} else { 				//the rest of cases
-   $menu_keyboard = [
-       [
-           "content_type" => "text",
-           "title" => "I'm happy!",
-           "payload" => "happy"
-       ],
-       [
-           "content_type" => "text",
-           "title" => "I'm sad!",
-           "payload" => "sad"
-       ]
-   ];
-
-   $data = array(
-       'recipient' => array(
-           'id' => $id
-       ),
-       'message' => array(
-           'text' => "I don't understand you :(",
-           'quick_replies' => $menu_keyboard
-       )
-   );
-
-   send($data, $token);
-}
+?>
